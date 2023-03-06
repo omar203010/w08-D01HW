@@ -9,21 +9,28 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-model Movie{
-  id String @id @default(uuid()) @unique 
-  name String @unique 
-  genre genre
-  rating Int 
-  duration Int
-  createdat DateTime ? @default(now())
 
+ model Student{
+id    String     @id @default(uuid())
+ name  String 
+  major String
+  age Int
+classroom Classroom[]
+ }
 
+  model Teacher{
+id    String     @id @default(uuid())
+ name  String 
+classes Classroom[]
+ }
+  model Classroom{
+id      String   @id @default(uuid())
+ name  String 
+ teacher_id String
+ student_id String
+  Teacher  Teacher  @relation(fields: [teacher_id], references: [id])
+  Student  Student  @relation(fields: [student_id], references: [id])
+ }
  
-  
-}
-enum genre {
-   drama 
-  action
-  comedy
-}
+
 
